@@ -1,0 +1,29 @@
+# Install software dependencies on Ubuntu 20.04
+sudo apt-get -y install g++ python3 python3-dev pkg-config sqlite3 python3-setuptools git \
+qt5-default mercurial ipython3 python3-gi python3-gi-cairo python3-pygraphviz gir1.2-goocanvas-2.0 \
+gir1.2-gtk-3.0 openmpi-bin openmpi-common openmpi-doc libopenmpi-dev autoconf cvs bzr unrar gdb \
+valgrind uncrustify doxygen graphviz imagemagick texlive texlive-extra-utils texlive-latex-extra \
+texlive-font-utils texlive-lang-portuguese dvipng latexmk python3-sphinx dia gsl-bin libgsl-dev \
+libgsl23 libgslcblas0 tcpdump libsqlite3-dev libxml2 libxml2-dev cmake libc6-dev libc6-dev-i386 \
+libclang-6.0-dev llvm-6.0-dev automake python3-pip libgtk-3-dev vtun lxc uml-utilities \
+libboost-signals1.67-dev libboost-filesystem1.67-dev
+
+
+# Install cxxfilt through pip
+python3 -m pip install --upgrade --user cxxfilt
+
+
+# Prepare the directories
+mkdir ~/workspace && cd ~/workspace
+
+
+# Fetch ns-3 code from its GitHub repo
+git clone https://gitlab.com/nsnam/ns-3-allinone.git
+
+
+# Download and build ns-3
+cd ./ns-3-allinone && ./download.py -n ns-3.33 && ./build.py --enable-examples --enable-tests
+
+
+# Test the build result
+cd ./ns-3.33/ && ./test.py && ./waf --run hello-simulator
